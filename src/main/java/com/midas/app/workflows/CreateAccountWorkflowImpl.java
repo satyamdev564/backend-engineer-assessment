@@ -20,13 +20,14 @@ public class CreateAccountWorkflowImpl implements CreateAccountWorkflow {
   public Account createAccount(Account details) {
 
     Account createdCustomerAccount = activities.createPaymentAccount(details);
-
     logger.info("initiating saving Stripe Account in local DB");
-    activities.saveAccount(createdCustomerAccount);
-    logger.info(
-        "Saving Completed {}",
-        createdCustomerAccount.getProviderId() + createdCustomerAccount.getProviderTypeEnum());
 
-    return createdCustomerAccount;
+    if (createdCustomerAccount != null) {
+      activities.saveAccount(createdCustomerAccount);
+      logger.info("saving completed with customer id : {}", createdCustomerAccount.getProviderId());
+      return createdCustomerAccount;
+    } else {
+      throw new RuntimeException("Something went wrong while communicating with stripe");
+    }
   }
 }
