@@ -1,11 +1,7 @@
-# Getting Started
-
-**IMPORTANT: Do not send pull requests to this repository. This is a template repository and is not used for grading. Any pull requests will be closed and ignored.**
-
 ## Introduction
 
-If you are reading this, you are probably have received this project as a coding challenge. Please read the instructions
-carefully and follow the steps below to get started.
+Welcome to the solution of backen-engineer-assesment by satyamdev564
+- Video : 
 
 ## Setup
 
@@ -17,31 +13,6 @@ To run the application you would require:
 - [Temporal](https://docs.temporal.io/cli#install)
 - [Docker](https://docs.docker.com/get-docker/)
 - [Stripe API Keys](https://stripe.com/docs/keys)
-
-### On macOS:
-
-First, you need to install Java 21 or later. You can download it from [Azul](https://www.azul.com/downloads/#zulu) or
-use [SDKMAN](https://sdkman.io/).
-
-```sh
-brew install --cask zulu21
-```
-
-You can install Temporal using Homebrew
-
-```sh
-brew install temporal
-```
-
-or visit [Temporal Installation](https://docs.temporal.io/cli#install) for more information.
-
-You can install Docker using Homebrew
-
-```sh
-brew install docker
-```
-
-or visit [Docker Installation](https://docs.docker.com/get-docker/) for more information.
 
 ### Other platforms
 
@@ -55,52 +26,53 @@ Then in `application.properties` file add the following line with your secret ke
 ```properties
 stripe.api-key=sk_test_51J3j
 ```
+### Note :
+Don't Forget to put your stripe keys in application.properites
 
-## Run
+### Run:
+Considering the pre-requisties are installed let's move on 
 
-You are required to first start the temporal server using the following command
+Step One :
+- Start the local temporal server by writing this command in your windows cmd
+  $ temporal server start-dev
+- your screen should look something like this
+  ![image](https://github.com/satyamdev564/backend-engineer-assessment/assets/59652591/78149ef9-ff1d-44ef-b53f-c9f77b5c7b63)
 
-```sh
-temporal server start-dev
-```
+  
+Step Two :
+- Start the Docker Desktop application and have a look if it's in running state by checking if the play button is highlighted
+- your screen should look something like this
+  ![image](https://github.com/satyamdev564/backend-engineer-assessment/assets/59652591/fc0ee4b3-1ed4-4161-a2e2-b1cedf08eb36)
 
-and then run the application using the following command or using your IDE.
+Step Three :
+- Clone this repo
+- Open windows cmd in whichever place you cloned this repo
+- Now we will run gradle clean command to clean this project in case of any incorrect build state
+- run this command
+  $ ./gradlew clean
+- your screen should look something like this
+  ![image](https://github.com/satyamdev564/backend-engineer-assessment/assets/59652591/000852d7-5b96-4ad8-839a-1be5afd9fa27)
 
-```sh
-./gradlew bootRun
-```
+- Now we will run gradle build command to build this project
+- run this command
+  $ ./gradlew build
+- your screen should look something like this
+  ![image](https://github.com/satyamdev564/backend-engineer-assessment/assets/59652591/4f66a8e3-b613-4e1f-9e67-93eba9b92c45)
 
-### Other commands
+- Now we will run gradle command for running this springboot project
+  ./gradlew bootRun
+- your screen should look something like this
+  ![image](https://github.com/satyamdev564/backend-engineer-assessment/assets/59652591/4656d410-42ec-429e-a1b1-8dcc56f0ee0e)
 
-#### Lint
-To run lint checks, use the following command
+Step Four :
+- Now the springboot project is running and you can hit the endpoints by passing requests from postman to this url
+- [GET] http://localhost:8080/accounts
+- [POST] http://localhost:8080/accounts
+- [PATCH] http://localhost:8080/accounts/{accountId}
+- your screen should look something like this
+  ![image](https://github.com/satyamdev564/backend-engineer-assessment/assets/59652591/e74446c4-ea68-428b-ac2d-c5dd3c65ed93)
 
-```sh
-./gradlew sonarlintMain
-```
-
-#### Code Formatting
-To format the code, use the following command
-
-```sh
-./gradlew spotlessApply
-```
-
-## Guides
-
-The following guides illustrate how to use some features concretely:
-
-- [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-- [Temporal Quick Start](https://docs.temporal.io/docs/quick-start)
-- [Temporal Java SDK Quick Guide](https://docs.temporal.io/dev-guide/java)
-- [Stripe Quick Start](https://stripe.com/docs/quickstart)
-- [Stripe Java SDK](https://stripe.com/docs/api/java)
-
-### Docker Compose support
-
-This project contains a Docker Compose file named `compose.yaml`.
-In this file, the following services have been defined:
-
-- postgres: [`postgres:latest`](https://hub.docker.com/_/postgres)
-
-Please review the tags of the used images and set them to the same as you're running in production.
+- Also you can access the Temporal Web UI by going over below url in browser
+  http://localhost:8233/
+- your screen should look something like this
+  ![image](https://github.com/satyamdev564/backend-engineer-assessment/assets/59652591/d8188438-6357-44b9-9c69-4a068ad5e664)
