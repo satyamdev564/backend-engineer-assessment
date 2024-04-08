@@ -1,18 +1,21 @@
 package com.midas.app.controllers;
 
+import com.midas.app.AccountService;
 import com.midas.app.mappers.Mapper;
 import com.midas.app.models.Account;
-import com.midas.app.services.AccountService;
+import com.midas.app.models.ProviderTypeEnum;
 import com.midas.generated.api.AccountsApi;
 import com.midas.generated.model.AccountDto;
 import com.midas.generated.model.CreateAccountDto;
-import java.util.List;
+import com.midas.generated.model.UpdateAccountDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,6 +40,9 @@ public class AccountController implements AccountsApi {
                 .firstName(createAccountDto.getFirstName())
                 .lastName(createAccountDto.getLastName())
                 .email(createAccountDto.getEmail())
+                .providerTypeEnum(
+                    ProviderTypeEnum.valueOf(
+                        createAccountDto.getProviderType().getValue().toUpperCase()))
                 .build());
 
     return new ResponseEntity<>(Mapper.toAccountDto(account), HttpStatus.CREATED);
@@ -55,5 +61,28 @@ public class AccountController implements AccountsApi {
     var accountsDto = accounts.stream().map(Mapper::toAccountDto).toList();
 
     return new ResponseEntity<>(accountsDto, HttpStatus.OK);
+  }
+
+  /**
+   * PATCH /accounts/{accountId} : Updates an existing account with the given details
+   *
+   * @param updateAccountDto User account details to be updated (required)
+   * @return User account updated (status code 200)
+   */
+  @Override
+  public ResponseEntity<AccountDto> updateUserAccount(
+      String accountId, UpdateAccountDto updateAccountDto) {
+    logger.info("Updating account for user with accountId: {}", updateAccountDto.getProviderId());
+
+    var account =
+        accountService.updateAccount(
+            Account.builder()
+                .firstName(updateAccountDto.getFirstName())
+                .lastName(updateAccountDto.getLastName())
+                .email(updateAccountDto.getEmail())
+                .providerId(accountId)
+                .build());
+
+    return new ResponseEntity<>(Mapper.toAccountDto(account), HttpStatus.OK);
   }
 }

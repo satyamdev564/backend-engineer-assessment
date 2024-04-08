@@ -1,4 +1,4 @@
-package com.midas.app.services;
+package com.midas.app;
 
 import com.midas.app.models.Account;
 import java.util.List;
@@ -18,4 +18,12 @@ public interface AccountService {
    * @return List<Account>
    */
   List<Account> getAccounts();
+
+  /**
+   * udpateAccount updates an existing account in the system.
+   *
+   * @param details is the details of the account to be created.
+   * @return Account
+   */
+  Account updateAccount(Account details);
 }

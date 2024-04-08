@@ -13,7 +13,7 @@ public interface AccountActivity {
    * @return Account
    */
   @ActivityMethod
-  Account saveAccount(Account account);
+  void saveAccount(Account account);
 
   /**
    * createPaymentAccount creates a payment account in the system or provider.

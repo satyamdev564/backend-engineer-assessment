@@ -1,5 +1,6 @@
-package com.midas.app.services;
+package com.midas.app;
 
+import com.midas.app.exceptions.ResourceNotFoundException;
 import com.midas.app.models.Account;
 import com.midas.app.repositories.AccountRepository;
 import com.midas.app.workflows.CreateAccountWorkflow;
@@ -7,6 +8,7 @@ import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
 import io.temporal.workflow.Workflow;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -49,5 +51,26 @@ public class AccountServiceImpl implements AccountService {
   @Override
   public List<Account> getAccounts() {
     return accountRepository.findAll();
+  }
+
+  @Override
+  public Account updateAccount(Account details) {
+
+    Optional<Account> account = accountRepository.findByProviderId(details.getProviderId());
+
+    if (account.isPresent()) {
+      Account accountToBeUpdated = account.get();
+
+      accountToBeUpdated.setFirstName(details.getFirstName());
+      accountToBeUpdated.setLastName(details.getLastName());
+      accountToBeUpdated.setEmail(details.getEmail());
+
+      accountRepository.save(accountToBeUpdated);
+      return accountToBeUpdated;
+
+    } else {
+      throw new ResourceNotFoundException(
+          "Stripe account with accountId {} is not present", details.getProviderId());
+    }
   }
 }
